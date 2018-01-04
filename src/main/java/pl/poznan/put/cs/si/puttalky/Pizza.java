@@ -11,21 +11,17 @@ public class Pizza extends Formatka {
 	public Pizza() {
 	}
 	
-	public Pizza(String nazwa, String opis)
-	{
+	public Pizza(String nazwa, String opis) {
 		this.nazwa=nazwa;
 		this.opis=opis;
 	}
 	
-	public String getNazwa()
-	{
+	public String getNazwa() {
 		return this.nazwa;
 	}
 	
-	public String getOpis()
-	{
+	public String getOpis() {
 		return this.opis;
 	}
 	
-
 }

@@ -7,8 +7,6 @@ import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.QueryResultsRow;
 
-
-
 /** Author: agalawrynowicz<br>
  * Date: 19-Dec-2016 */
 
@@ -19,56 +17,43 @@ public class Zamowienie {
 	private int iloscDodatkow;
 	private Pizza pizza;
 
-	
 	public Zamowienie(){
-
 	}
-	
 
-	public void powitanie()
-	{
+	public void powitanie() {
 		System.out.println("Witaj, nazywam się Puttalky. Pomogę Tobie zamówić pizzę.");
 	}
 	
-	public void pozegnanie()
-	{
+	public void pozegnanie() {
 		System.out.print("Dziękuję za skorzystanie z moich usług. \n Życzę smacznego!\n");
 	}
 	
-	public String getCiasto()
-	{
+	public String getCiasto() {
 		return this.ciasto;
 	}
-	public void setCiasto(String ciasto)
-	{
+	public void setCiasto(String ciasto) {
 		this.ciasto=ciasto;
 	}
 
-	public Pizza getPizza()
-	{
+	public Pizza getPizza() {
 		return this.pizza;
 	}
-	public void setPizza(Pizza pizza)
-	{
+	public void setPizza(Pizza pizza) {
 		this.pizza=pizza;
 	}
 	
-	public int getIloscDodatkow()
-	{
+	public int getIloscDodatkow() {
 		return this.iloscDodatkow;
 	}
-	public void setIloscDodatkow(int iloscDodatkow)
-	{
+	public void setIloscDodatkow(int iloscDodatkow) {
 		this.iloscDodatkow=iloscDodatkow;
 	}
 	
 	public Set<String> getDodatki(){
-
 		return this.dodatki;
 	}
 	
-	public void setDodatki(Set<String> dodatki)
-	{
+	public void setDodatki(Set<String> dodatki) {
 		this.dodatki=dodatki;
 	}
 	

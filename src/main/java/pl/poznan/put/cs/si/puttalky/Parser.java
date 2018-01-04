@@ -19,8 +19,7 @@ public class Parser {
 	
 	public Parser(){}
 	
-	public Parser(String wypowiedz)
-	{
+	public Parser(String wypowiedz) {
 		this.wypowiedz=wypowiedz;
 	}
 
@@ -40,8 +39,7 @@ public class Parser {
 		this.slowaKluczowe = slowaKluczowe;
 	}
 
-	public void przetworzOdpowiedz()
-	{
+	public void przetworzOdpowiedz() {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		String buffer="";
 		try {

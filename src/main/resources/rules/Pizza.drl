@@ -33,9 +33,9 @@ rule "Podaj dodatki"
 		parser : Parser()
 		baza : BazaWiedzy()
 	then
-		  dodatek.setMonit("Jaki dodatek powinna zawierać Twoja pizza?:\n");
-		  dodatek.zadajPytanie();
-		  parser.przetworzOdpowiedz();
+		dodatek.setMonit("Jaki dodatek powinna zawierać Twoja pizza?:\n");
+		dodatek.zadajPytanie();
+		parser.przetworzOdpowiedz();
 		 
 		for (String slowo : parser.getSlowaKluczowe()){
 			for (String uriKlasy : baza.dopasujDodatek(slowo)) { 
@@ -92,12 +92,13 @@ rule "Polecana pizza"
 				insert(new Fakt("pizza_propozycja", nazwaPizzy));
 		    	//System.out.println();
 		    	if (!nazwaPizzy.equals("Nothing")){
-		       	   System.out.println("Polecam pizzę:"+nazwaPizzy);
+		       	   System.out.println("Polecam pizzę: "+nazwaPizzy);
 		       	}
 		    }
 		}
 		else {
-			System.out.println(pizza.getBrakDopasowania());
+			System.out.println("Przyjąłem specjalne zamówienie na Twoją pizzę z dodatkiem: " + $dodatek.getWartosc().substring(53));
+			insert(new Fakt("pizza_propozycja", ""));
 	    }
 
 end

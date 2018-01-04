@@ -8,15 +8,14 @@ public class Fakt {
 	private String nazwa;
 	private String wartosc;
 	
-	public Fakt(){}
+	public Fakt() {}
 	
-	public Fakt(String nazwa, String wartosc)
-	{
+	public Fakt(String nazwa, String wartosc) {
 		this.nazwa=nazwa;
 		this.wartosc = wartosc;
 	}
 
-	
+
 	public String getNazwa() {
         return this.nazwa;
     }
@@ -32,6 +31,4 @@ public class Fakt {
     public void setWartosc(String wartosc) {
         this.wartosc = wartosc;
     }
-	
-
 }
