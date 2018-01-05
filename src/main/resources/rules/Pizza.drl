@@ -40,6 +40,13 @@ rule "Podaj dodatki"
 		dodatek.zadajPytanie();
 		parser.przetworzOdpowiedz();
 		boolean check = false;
+		boolean bez = false;
+
+        for (String slowo : parser.getSlowaKluczowe()){
+             if(slowo.equals("bez")){
+                 bez = true;
+             }
+        }
 
         for (String slowo : parser.getSlowaKluczowe()){
             if(slowo.contains("wege")){
@@ -48,7 +55,12 @@ rule "Podaj dodatki"
                 break;
             }else if(slowo.contains("mięs")){
                 check=true;
-                insert(new Fakt("mięsna",""));
+                if(bez==true){
+                    insert(new Fakt("wege",""));
+                }
+                else{
+                    insert(new Fakt("mięsna",""));
+                }
                 break;
             }
         }
