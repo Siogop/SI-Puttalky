@@ -48,7 +48,12 @@ public class Parser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		setSlowaKluczowe(parsuj(buffer.toString()));
+		if (this.slowaKluczowe.length != 0) {
+		for (int i = 0; i<this.slowaKluczowe.length; i++)
+			System.out.println(this.slowaKluczowe[i]); 
+		}
 	}
 
 	
@@ -77,7 +82,7 @@ public class Parser {
 	      result.add(wd.getTag().toString());
 	    }
 	    return result.toArray(new String[result.size()]);
-	  }
+	}
 	
     public static final void main(String[] args) {
         try {
