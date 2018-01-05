@@ -6,7 +6,7 @@ import pl.poznan.put.cs.si.puttalky.Ciasto;
 import pl.poznan.put.cs.si.puttalky.Dodatek;
 import pl.poznan.put.cs.si.puttalky.BazaWiedzy;
 import java.util.Set;
-
+import java.util.ArrayList;
 
 /** Author: agalawrynowicz<br>
  * Date: 19-Dec-2016 */
@@ -36,13 +36,22 @@ rule "Podaj dodatki"
 		dodatek.setMonit("Jaki dodatek powinna zawierać Twoja pizza?:\n");
 		dodatek.zadajPytanie();
 		parser.przetworzOdpowiedz();
-		 
+
+		ArrayList<String> dodatki = new ArrayList<String>();
 		for (String slowo : parser.getSlowaKluczowe()){
 			for (String uriKlasy : baza.dopasujDodatek(slowo)) { 
-		        insert(new Fakt("dodatek", uriKlasy));
+				dodatki.add(uriKlasy);
 		    } 
 		}
-		    		
+		
+		if (dodatki.size() > 0) {
+			Fakt f = new Fakt("dodatek", dodatki.get(0));
+			for (int i=1; i<dodatki.size(); i++) {
+				f.setWartosc(dodatki.get(i));
+			}
+			insert(f);	
+		    //f.getWartosc();
+		}   
 		//@TODO	brak dopasowania
 		update(dodatek);
 end
@@ -84,6 +93,36 @@ rule "Polecana pizza"
 		baza: BazaWiedzy()
 		pizza: Pizza()
 	then
+		Set<String> pizze = baza.wyszukajPizzePoDodatkach($dodatek.getWartosc());  
+		if (pizze.size()>1){            		
+			for (String nazwaPizzy : pizze) {
+				insert(new Fakt("pizza_propozycja", nazwaPizzy));
+		    	if (!nazwaPizzy.equals("Nothing")){
+		       	   System.out.println("Polecam pizzę: "+nazwaPizzy);
+		       	}
+		    }
+		}
+		else {
+			System.out.println("Przyjąłem specjalne zamówienie na Twoją pizzę z: ");
+			for (int i = 0; i < $dodatek.getWartosc().size(); i++)
+				System.out.println($dodatek.getWartosc().get(i).substring(53));
+			insert(new Fakt("pizza_propozycja", ""));
+	    }
+       
+end
+/*
+rule "Polecana pizza bez dodatkow"
+	salience 0
+	
+	when
+		Fakt(nazwa == "dodatek") && 
+		Fakt(nazwa == "rodzaj_ciasta") && 	
+		not Fakt(nazwa == "pizza_propozycja") &&
+        $dodatek : Fakt( nazwa == "dodatek")
+ 		
+		baza: BazaWiedzy()
+		pizza: Pizza()
+	then
 
 		Set<String> pizze = baza.wyszukajPizzePoDodatkach($dodatek.getWartosc());
             
@@ -97,12 +136,10 @@ rule "Polecana pizza"
 		    }
 		}
 		else {
-			System.out.println("Przyjąłem specjalne zamówienie na Twoją pizzę z dodatkiem: " + $dodatek.getWartosc().substring(53));
+			//System.out.println("Przyjąłem specjalne zamówienie na Twoją pizzę z dodatkiem: " + $dodatek.getWartosc().substring(53));
 			insert(new Fakt("pizza_propozycja", ""));
 	    }
-
 end
-
 
 rule "zakończenie"
 
@@ -114,5 +151,4 @@ rule "zakończenie"
 	then
 		insert(new Fakt("koniec", "0"));
 		zamowienie.pozegnanie();
-end
-
+end*/

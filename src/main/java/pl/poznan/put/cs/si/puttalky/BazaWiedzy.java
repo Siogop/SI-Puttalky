@@ -2,6 +2,7 @@ package pl.poznan.put.cs.si.puttalky;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -62,14 +63,16 @@ public class BazaWiedzy {
     	return result;
     }
     
-    public Set<String> wyszukajPizzePoDodatkach(String iri){
+    public Set<String> wyszukajPizzePoDodatkach(ArrayList<String> iri){
     	Set<String> pizze = new HashSet<String>();
     	OWLObjectProperty maDodatek = manager.getOWLDataFactory().getOWLObjectProperty(IRI.create("http://semantic.cs.put.poznan.pl/ontologie/pizza.owl#maDodatek"));
     	Set<OWLClassExpression> ograniczeniaEgzystencjalne = new HashSet<OWLClassExpression>();
     	
-    	OWLClass dodatek = manager.getOWLDataFactory().getOWLClass(IRI.create(iri));
-    	OWLClassExpression wyrazenie = manager.getOWLDataFactory().getOWLObjectSomeValuesFrom(maDodatek, dodatek);
-    	ograniczeniaEgzystencjalne.add(wyrazenie);
+    	for (String i: iri) {
+    		OWLClass dodatek = manager.getOWLDataFactory().getOWLClass(IRI.create(i));
+    		OWLClassExpression wyrazenie = manager.getOWLDataFactory().getOWLObjectSomeValuesFrom(maDodatek, dodatek);
+    		ograniczeniaEgzystencjalne.add(wyrazenie);
+    	}   	
   	
     	OWLClassExpression pozadanaPizza = manager.getOWLDataFactory().getOWLObjectIntersectionOf(ograniczeniaEgzystencjalne);
     	

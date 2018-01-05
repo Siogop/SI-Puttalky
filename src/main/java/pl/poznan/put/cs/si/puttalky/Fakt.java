@@ -1,21 +1,26 @@
 package pl.poznan.put.cs.si.puttalky;
 
+import java.util.ArrayList;
+
 /** Author: agalawrynowicz<br>
  * Date: 19-Dec-2016 */
 
 public class Fakt {
 	
 	private String nazwa;
-	private String wartosc;
+	private ArrayList<String> wartosc;
 	
-	public Fakt() {}
+	public Fakt() {
+		this.wartosc = new ArrayList<String>();
+	}
 	
 	public Fakt(String nazwa, String wartosc) {
 		this.nazwa=nazwa;
-		this.wartosc = wartosc;
+		this.wartosc = new ArrayList<String>();
+		this.wartosc.add(wartosc);
 	}
 
-
+	
 	public String getNazwa() {
         return this.nazwa;
     }
@@ -24,11 +29,11 @@ public class Fakt {
         this.nazwa = nazwa;
     }
 
-    public String getWartosc() {
+    public ArrayList<String> getWartosc() {
         return this.wartosc;
     }
 
     public void setWartosc(String wartosc) {
-        this.wartosc = wartosc;
+    	this.wartosc.add(wartosc);
     }
 }
