@@ -110,36 +110,7 @@ rule "Polecana pizza"
 	    }
        
 end
-/*
-rule "Polecana pizza bez dodatkow"
-	salience 0
-	
-	when
-		Fakt(nazwa == "dodatek") && 
-		Fakt(nazwa == "rodzaj_ciasta") && 	
-		not Fakt(nazwa == "pizza_propozycja") &&
-        $dodatek : Fakt( nazwa == "dodatek")
- 		
-		baza: BazaWiedzy()
-		pizza: Pizza()
-	then
 
-		Set<String> pizze = baza.wyszukajPizzePoDodatkach($dodatek.getWartosc());
-            
-        if (pizze.size()>1){            		
-			for (String nazwaPizzy : pizze) {
-				insert(new Fakt("pizza_propozycja", nazwaPizzy));
-		    	//System.out.println();
-		    	if (!nazwaPizzy.equals("Nothing")){
-		       	   System.out.println("Polecam pizzę: "+nazwaPizzy);
-		       	}
-		    }
-		}
-		else {
-			//System.out.println("Przyjąłem specjalne zamówienie na Twoją pizzę z dodatkiem: " + $dodatek.getWartosc().substring(53));
-			insert(new Fakt("pizza_propozycja", ""));
-	    }
-end
 
 rule "zakończenie"
 
@@ -151,4 +122,4 @@ rule "zakończenie"
 	then
 		insert(new Fakt("koniec", "0"));
 		zamowienie.pozegnanie();
-end*/
+end
