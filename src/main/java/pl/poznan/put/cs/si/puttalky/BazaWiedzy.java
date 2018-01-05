@@ -26,6 +26,9 @@ public class BazaWiedzy {
     private OWLOntology ontologia;
     private Set<OWLClass> listaKlas;
     private Set<OWLClass> listaDodatkow;
+    private Set<OWLClass> listaNazwanychPizz;
+	private Set<OWLClass> listaMięsnychPizz;
+	private Set<OWLClass> listaWegePizz;
     
     OWLReasoner silnik;
     
@@ -38,10 +41,26 @@ public class BazaWiedzy {
 			silnik = new Reasoner.ReasonerFactory().createReasoner(ontologia);
 			listaKlas = ontologia.getClassesInSignature();
 			listaDodatkow = new HashSet<OWLClass>();
+			listaNazwanychPizz = new HashSet<OWLClass>();
+			listaMięsnychPizz = new HashSet<OWLClass>();
+			listaWegePizz = new HashSet<OWLClass>();
 
 			OWLClass dodatek  = manager.getOWLDataFactory().getOWLClass(IRI.create("http://semantic.cs.put.poznan.pl/ontologie/pizza.owl#Dodatek"));
 			for (org.semanticweb.owlapi.reasoner.Node<OWLClass> klasa: silnik.getSubClasses(dodatek, false)) {
 				listaDodatkow.add(klasa.getRepresentativeElement());
+			}
+
+			OWLClass nazwanaPizza  = manager.getOWLDataFactory().getOWLClass(IRI.create("http://semantic.cs.put.poznan.pl/ontologie/pizza.owl#NazwanaPizza"));
+			for (org.semanticweb.owlapi.reasoner.Node<OWLClass> klasaP: silnik.getSubClasses(nazwanaPizza, false)) {
+				listaNazwanychPizz.add(klasaP.getRepresentativeElement());
+			}
+			OWLClass mięsnaPizza  = manager.getOWLDataFactory().getOWLClass(IRI.create("http://semantic.cs.put.poznan.pl/ontologie/pizza.owl#PizzaZMięsem"));
+			for (org.semanticweb.owlapi.reasoner.Node<OWLClass> klasaP: silnik.getSubClasses(mięsnaPizza, false)) {
+				listaMięsnychPizz.add(klasaP.getRepresentativeElement());
+			}
+			OWLClass wegePizza  = manager.getOWLDataFactory().getOWLClass(IRI.create("http://semantic.cs.put.poznan.pl/ontologie/pizza.owl#PizzaWegetariańska"));
+			for (org.semanticweb.owlapi.reasoner.Node<OWLClass> klasaP: silnik.getSubClasses(wegePizza, false)) {
+				listaWegePizz.add(klasaP.getRepresentativeElement());
 			}
 			
 			
@@ -61,6 +80,16 @@ public class BazaWiedzy {
     	}
     	return result;
     }
+
+	public Set<String> dopasujNazwePizzy(String s){
+		Set<String> result = new HashSet<String>();
+		for (OWLClass klasa : listaNazwanychPizz){
+			if (klasa.toString().toLowerCase().contains(s.toLowerCase()) && s.length()>2){
+				result.add(klasa.getIRI().toString());
+			}
+		}
+		return result;
+	}
     
     public Set<String> wyszukajPizzePoDodatkach(String iri){
     	Set<String> pizze = new HashSet<String>();
@@ -79,7 +108,23 @@ public class BazaWiedzy {
 	
 		return pizze;
     }
-	
+
+	public Set<String> getWegePizze() {
+    	Set<String> pizze = new HashSet<String>();
+    	for (OWLClass klasa : listaWegePizz){
+    		pizze.add(klasa.toString());
+		}
+		return pizze;
+	}
+
+	public Set<String> getMięsnePizze() {
+		Set<String> pizze = new HashSet<String>();
+		for (OWLClass klasa : listaMięsnychPizz){
+			pizze.add(klasa.toString());
+		}
+		return pizze;
+	}
+
 	public static void main(String[] args) {
 		BazaWiedzy baza = new BazaWiedzy();
 		baza.inicjalizuj();
