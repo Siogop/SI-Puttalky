@@ -38,7 +38,7 @@ public class Parser {
 	public void setSlowaKluczowe(String[] slowaKluczowe) {
 		this.slowaKluczowe = slowaKluczowe;
 	}
-
+	
 	public void przetworzOdpowiedz() {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		String buffer="";
@@ -50,10 +50,6 @@ public class Parser {
 		}
 		
 		setSlowaKluczowe(parsuj(buffer.toString()));
-		if (this.slowaKluczowe.length != 0) {
-		for (int i = 0; i<this.slowaKluczowe.length; i++)
-			System.out.println(this.slowaKluczowe[i]); 
-		}
 	}
 
 	

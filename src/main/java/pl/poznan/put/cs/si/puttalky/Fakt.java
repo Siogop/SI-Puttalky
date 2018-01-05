@@ -15,12 +15,11 @@ public class Fakt {
 	}
 	
 	public Fakt(String nazwa, String wartosc) {
-		this.nazwa=nazwa;
+		this.nazwa = nazwa;
 		this.wartosc = new ArrayList<String>();
 		this.wartosc.add(wartosc);
 	}
 
-	
 	public String getNazwa() {
         return this.nazwa;
     }
