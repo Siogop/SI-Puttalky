@@ -29,6 +29,9 @@ rule "Podaj dodatki"
 	
 	when
 		not Fakt(nazwa == "dodatek")
+		not Fakt(nazwa == "nazwanaPizza")
+		not Fakt(nazwa == "mięsna")
+		not Fakt(nazwa == "wege")
 		dodatek : Dodatek()
 		parser : Parser()
 		baza : BazaWiedzy()
@@ -37,6 +40,40 @@ rule "Podaj dodatki"
 		dodatek.zadajPytanie();
 		parser.przetworzOdpowiedz();
 
+		boolean check = false;
+		boolean bez = false;
+
+        for (String slowo : parser.getSlowaKluczowe()){
+             if(slowo.equals("bez")){
+                 bez = true;
+             }
+        }
+
+        for (String slowo : parser.getSlowaKluczowe()){
+            if(slowo.contains("wege")){
+                check=true;
+                insert(new Fakt("wege",""));
+                break;
+            }else if(slowo.contains("mięs")){
+                check=true;
+                if(bez==true){
+                    insert(new Fakt("wege",""));
+                }
+                else{
+                    insert(new Fakt("mięsna",""));
+                }
+                break;
+            }
+        }
+        if(check==false){
+		    for (String slowo : parser.getSlowaKluczowe()){
+			    for (String uriKlasy : baza.dopasujNazwePizzy(slowo)) {
+		            insert(new Fakt("nazwanaPizza", uriKlasy));
+		            check = true;
+		        }
+		    }
+		}
+		if(check==false){
 		ArrayList<String> dodatki = new ArrayList<String>();
 		for (String slowo : parser.getSlowaKluczowe()){
 			for (String uriKlasy : baza.dopasujDodatek(slowo)) { 
@@ -52,6 +89,8 @@ rule "Podaj dodatki"
 			insert(f);	
 		    //f.getWartosc();
 		}   
+		}
+
 		//@TODO	brak dopasowania
 		update(dodatek);
 end
@@ -95,6 +134,7 @@ rule "Polecana pizza"
 	then
 		Set<String> pizze = baza.wyszukajPizzePoDodatkach($dodatek.getWartosc());  
 		if (pizze.size()>1){            		
+
 			for (String nazwaPizzy : pizze) {
 				insert(new Fakt("pizza_propozycja", nazwaPizzy));
 		    	if (!nazwaPizzy.equals("Nothing")){
@@ -111,6 +151,78 @@ rule "Polecana pizza"
        
 end
 
+rule "Polecana nazwana pizza"
+	salience 1
+
+	when
+		Fakt(nazwa == "nazwanaPizza") &&
+		Fakt(nazwa == "rodzaj_ciasta") &&
+		not Fakt(nazwa == "pizza_propozycja") &&
+        $nazwanaPizza : Fakt( nazwa == "nazwanaPizza")
+
+		baza: BazaWiedzy()
+	then
+
+
+		insert(new Fakt("pizza_propozycja",$nazwanaPizza.getWartosc()));
+		 //System.out.println();
+
+		 System.out.println("Przyjąłem zamówienie na pizzę: "+$nazwanaPizza.getWartosc().substring(53));
+
+
+end
+
+rule "Polecana mięsna pizza"
+   	salience 1
+
+   	when
+   		Fakt(nazwa == "mięsna") &&
+   		Fakt(nazwa == "rodzaj_ciasta") &&
+   		not Fakt(nazwa == "pizza_propozycja") &&
+           $mięsnaPizza : Fakt( nazwa == "mięsna")
+
+   		baza: BazaWiedzy()
+   	then
+
+           Set<String> pizze = baza.getMięsnePizze();
+
+                   if (pizze.size()>1){
+           			for (String nazwaPizzy : pizze) {
+           				insert(new Fakt("pizza_propozycja", nazwaPizzy));
+           		    	//System.out.println();
+           		    	if (!nazwaPizzy.contains("Nothing")){
+           		       	   System.out.println("Polecam pizzę: "+nazwaPizzy.substring(54,nazwaPizzy.length()-1));
+           		       	}
+           		    }
+           		}
+
+end
+
+rule "Polecana wege pizza"
+   	salience 1
+
+   	when
+   		Fakt(nazwa == "wege") &&
+   		Fakt(nazwa == "rodzaj_ciasta") &&
+   		not Fakt(nazwa == "pizza_propozycja") &&
+           $wegePizza : Fakt( nazwa == "wege")
+
+   		baza: BazaWiedzy()
+   	then
+
+           Set<String> pizze = baza.getWegePizze();
+
+                   if (pizze.size()>1){
+           			for (String nazwaPizzy : pizze) {
+           				insert(new Fakt("pizza_propozycja", nazwaPizzy));
+           		    	//System.out.println();
+           		    	if (!nazwaPizzy.contains("Nothing")){
+                            System.out.println("Polecam pizzę: "+nazwaPizzy.substring(54,nazwaPizzy.length()-1));
+                        }
+           		    }
+           		}
+
+end
 
 rule "zakończenie"
 
